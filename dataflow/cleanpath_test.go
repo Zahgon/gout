@@ -30,6 +30,13 @@ func TestUtil_cleanPaths(t *testing.T) {
 		{path: "http://www.aa.com/urls/./a?site=https://bb.com", need: "http://www.aa.com/urls/a?site=https://bb.com"},
 		{path: "https://www.aa.com/urls/../a?site=https://bb.com", need: "https://www.aa.com/a?site=https://bb.com"},
 		{path: "https://api.map.baidu.com/weather/v1/?district_id=310100&data_type=all&ak=ffyu0pP8P6Ao0KYr8FTZwDgsOFiA1oYA", need: "https://api.map.baidu.com/weather/v1/?district_id=310100&data_type=all&ak=ffyu0pP8P6Ao0KYr8FTZwDgsOFiA1oYA"},
+		// Test uppercase and mixed-case URL schemes
+		{path: "HTTP://www.aa.com/a", need: "HTTP://www.aa.com/a"},
+		{path: "HTTPS://www.bb.com/b", need: "HTTPS://www.bb.com/b"},
+		{path: "HtTp://example.com/path", need: "HtTp://example.com/path"},
+		{path: "HtTpS://example.com/path", need: "HtTpS://example.com/path"},
+		{path: "HTTP://www.aa.com/urls/./a?site=https://bb.com", need: "HTTP://www.aa.com/urls/a?site=https://bb.com"},
+		{path: "HTTPS://www.aa.com/urls/../a?site=http://bb.com", need: "HTTPS://www.aa.com/a?site=http://bb.com"},
 	}
 
 	for index, v := range test {

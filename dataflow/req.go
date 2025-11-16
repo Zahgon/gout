@@ -576,7 +576,8 @@ func (r *Req) Do() (err error) {
 }
 
 func modifyURL(url string) string {
-	if strings.HasPrefix(url, "https://") || strings.HasPrefix(url, "http://") {
+	urlLower := strings.ToLower(url)
+	if strings.HasPrefix(urlLower, "https://") || strings.HasPrefix(urlLower, "http://") {
 		return url
 	}
 

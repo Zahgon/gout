@@ -15,7 +15,8 @@ func cleanPaths(rv string) string {
 		return rv
 	}
 
-	if strings.HasPrefix(rv, httpProto) || strings.HasPrefix(rv, httpsProto) {
+	rvLower := strings.ToLower(rv)
+	if strings.HasPrefix(rvLower, httpProto) || strings.HasPrefix(rvLower, httpsProto) {
 		var proto, domainPath, query string
 		protoEndIdx := strings.Index(rv, "//") + 2
 		queryIdx := strings.Index(rv, "?")
