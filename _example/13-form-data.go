@@ -1,11 +1,7 @@
 package main
 
 import (
-	"fmt"
 	"time"
-
-	"github.com/gin-gonic/gin"
-	"github.com/guonaihong/gout"
 )
 
 type testForm struct {
@@ -23,62 +19,26 @@ type testForm2 struct {
 
 // 使用map装载数据
 func mapExample() {
+	_ = "STUB: not implemented"
 
 	// 1.使用gout.H
-	fmt.Printf("\n\n====1. use gout.H==============\n\n")
-	code := 0
-	err := gout.
-		POST(":8080/test.form").
-		Debug(true).
-		SetForm(gout.H{"mode": "A",
-			"text":   "good",
-			"voice":  gout.FormFile("../testdata/voice.pcm"),
-			"voice2": gout.FormMem("pcm")}).
-		Code(&code).
-		Do()
-
-	if err != nil || code != 200 {
-		fmt.Printf("%s:code = %d\n", err, code)
-		return
-	}
+	return
 }
 
 // 使用结构体装载数据
 func structExample() {
-	code := 0
-	// 2.使用结构体里面的数据
-	fmt.Printf("\n\n====2. use struct==============\n\n")
-	err := gout.
-		POST(":8080/test.form").
-		Debug(true).
-		SetForm(testForm2{
-			Mode:   "A",
-			Text:   "good",
-			Voice:  "../testdata/voice.pcm",
-			Voice2: []byte("pcm")}).
-		Code(&code).Do()
-	if err != nil || code != 200 {
+	_ = "STUB: not implemented"
 
-	}
+	// 2.使用结构体里面的数据
+	return
 }
 
 // 自定义filename
 func mapExample2() {
-	code := 0
-	// 2.使用结构体里面的数据
-	fmt.Printf("\n\n====3. use struct==============\n\n")
-	err := gout.
-		POST(":8080/test.form").
-		Debug(true).
-		SetForm(gout.H{
-			"Mode":  "A",
-			"Text":  "good",
-			"Voice": gout.FormType{FileName: "test-file-name", File: gout.FormFile("../testdata/voice.pcm")},
-		}).
-		Code(&code).Do()
-	if err != nil || code != 200 {
+	_ = "STUB: not implemented"
 
-	}
+	// 2.使用结构体里面的数据
+	return
 }
 
 func main() {
@@ -90,17 +50,4 @@ func main() {
 	mapExample2()
 }
 
-func server() {
-	router := gin.New()
-	router.POST("/test.form", func(c *gin.Context) {
-
-		t2 := testForm{}
-		err := c.Bind(&t2)
-		if err != nil {
-			fmt.Printf("err = %s\n", err)
-			return
-		}
-	})
-
-	router.Run()
-}
+func server() { _ = "STUB: not implemented"; return }

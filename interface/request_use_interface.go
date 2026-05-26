@@ -9,11 +9,14 @@ type RequestMiddler interface {
 }
 
 func (f RequestMiddlerFunc) ModifyRequest(req *http.Request) error {
-	return f(req)
+	_ = "STUB: not implemented"
+
+	// WithRequestMiddlerFunc 是创建一个 RequestMiddler 的helper
+	// 如果我们只需要简单的逻辑，只关注闭包本身，则可以使用这个helper快速创建一个 RequestMiddler
+	return nil
 }
 
-// WithRequestMiddlerFunc 是创建一个 RequestMiddler 的helper
-// 如果我们只需要简单的逻辑，只关注闭包本身，则可以使用这个helper快速创建一个 RequestMiddler
 func WithRequestMiddlerFunc(f RequestMiddlerFunc) RequestMiddler {
-	return f
+	_ = "STUB: not implemented"
+	return *new(RequestMiddler)
 }

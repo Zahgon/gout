@@ -2,8 +2,6 @@ package decode
 
 import (
 	"io"
-
-	"gopkg.in/yaml.v2"
 )
 
 // YAMLDecode yaml decoder core data structure
@@ -12,26 +10,17 @@ type YAMLDecode struct {
 }
 
 // NewYAMLDecode create a new yaml decoder
-func NewYAMLDecode(obj interface{}) Decoder {
-	if obj == nil {
-		return nil
-	}
-	return &YAMLDecode{obj: obj}
-}
+func NewYAMLDecode(obj interface{}) Decoder { _ = "STUB: not implemented"; return *new(Decoder) }
 
 // Decode yaml decoder
-func (y *YAMLDecode) Decode(r io.Reader) error {
-	decode := yaml.NewDecoder(r)
-	return decode.Decode(y.obj)
-}
+func (y *YAMLDecode) Decode(r io.Reader) error { _ = "STUB: not implemented"; return nil }
 
 // Decode obj
 func (y *YAMLDecode) Value() interface{} {
-	return y.obj
+	_ = "STUB: not implemented"
+
+	// YAML yaml decoder
+	return nil
 }
 
-// YAML yaml decoder
-func YAML(r io.Reader, obj interface{}) error {
-	decode := yaml.NewDecoder(r)
-	return decode.Decode(obj)
-}
+func YAML(r io.Reader, obj interface{}) error { _ = "STUB: not implemented"; return nil }

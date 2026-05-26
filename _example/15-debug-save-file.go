@@ -2,17 +2,13 @@ package main
 
 import (
 	"fmt"
-	"github.com/guonaihong/gout"
 	"io"
 	"os"
+
+	"github.com/guonaihong/gout"
 )
 
-func SaveFile(w io.Writer) gout.DebugOpt {
-	return gout.DebugFunc(func(o *gout.DebugOption) {
-		o.Debug = true
-		o.Write = w
-	})
-}
+func SaveFile(w io.Writer) gout.DebugOpt { _ = "STUB: not implemented"; return *new(gout.DebugOpt) }
 
 func main() {
 

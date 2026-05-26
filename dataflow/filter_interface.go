@@ -1,9 +1,10 @@
 package dataflow
 
 import (
-	"github.com/guonaihong/gout/bench"
 	"io"
 	"time"
+
+	"github.com/guonaihong/gout/bench"
 )
 
 type NewFilter interface {

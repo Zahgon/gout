@@ -12,11 +12,4 @@ var longTmpl = `
 curl{{if gt (len .Method) 0}} --request {{.Method}}{{end}}{{range $_, $header := .Header}} --header {{$header}}{{end}}{{if gt (len .Data) 0}} --data {{.Data}}{{end}}{{range $_, $formData := .FormData}} --form {{$formData}}{{end}} --url {{.URL}}
 `
 
-func newTemplate(long bool) *template.Template {
-	tmpl := shortTmpl
-	if long {
-		tmpl = longTmpl
-	}
-
-	return template.Must(template.New("generate-curl").Parse(tmpl))
-}
+func newTemplate(long bool) *template.Template { _ = "STUB: not implemented"; return nil }

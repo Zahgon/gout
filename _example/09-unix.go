@@ -3,11 +3,10 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/gin-gonic/gin"
-	"github.com/guonaihong/gout"
-	"net"
 	"net/http"
 	"os"
+
+	"github.com/guonaihong/gout"
 )
 
 func main() {
@@ -37,34 +36,4 @@ func main() {
 	fmt.Printf("result = %s\n", s)
 }
 
-func server(path string) *http.Server {
-	router := gin.Default()
-	type testHeader struct {
-		H1 string `header:"h1"`
-		H2 string `header:"h2"`
-	}
-
-	router.POST("/test/unix", func(c *gin.Context) {
-
-		tHeader := testHeader{}
-		err := c.ShouldBindHeader(&tHeader)
-		if err != nil {
-			c.String(200, "fail")
-			return
-		}
-
-		c.String(200, "ok")
-	})
-
-	listener, err := net.Listen("unix", path)
-	if err != nil {
-		return nil
-	}
-
-	srv := http.Server{Handler: router}
-	go func() {
-		srv.Serve(listener)
-	}()
-
-	return &srv
-}
+func server(path string) *http.Server { _ = "STUB: not implemented"; return nil }

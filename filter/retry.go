@@ -1,16 +1,11 @@
 package filter
 
 import (
-	"context"
 	"errors"
-	"fmt"
-	"math"
-	"math/rand"
 	"net/http"
 	"time"
 
 	"github.com/guonaihong/gout/dataflow"
-	pkgerr "github.com/pkg/errors"
 )
 
 var (
@@ -38,36 +33,32 @@ type Retry struct {
 	cb          func(c *dataflow.Context) error
 }
 
-func (r *Retry) New(df *dataflow.DataFlow) interface{} {
-	return &Retry{df: df}
-}
+func (r *Retry) New(df *dataflow.DataFlow) interface{} { _ = "STUB: not implemented"; return nil }
 
 // Attempt set the number of retries
 func (r *Retry) Attempt(attempt int) dataflow.Retry {
-	r.attempt = attempt
-	return r
+	_ = "STUB: not implemented"
+	return *new(dataflow.Retry)
 }
 
 // WaitTime sets the basic wait time
 func (r *Retry) WaitTime(waitTime time.Duration) dataflow.Retry {
-	r.waitTime = waitTime
-	return r
+	_ = "STUB: not implemented"
+	return *new(dataflow.Retry)
 }
 
 // MaxWaitTime Sets the maximum wait time
 func (r *Retry) MaxWaitTime(maxWaitTime time.Duration) dataflow.Retry {
-	r.maxWaitTime = maxWaitTime
-	return r
+	_ = "STUB: not implemented"
+	return *new(dataflow.Retry)
 }
 
 func (r *Retry) Func(cb func(c *dataflow.Context) error) dataflow.Retry {
-	r.cb = cb
-	return r
+	_ = "STUB: not implemented"
+	return *new(dataflow.Retry)
 }
 
-func (r *Retry) reset() {
-	r.currAttempt = 0
-}
+func (r *Retry) reset() { _ = "STUB: not implemented"; return }
 
 func (r *Retry) init() {
 	if r.attempt == 0 {
@@ -84,106 +75,25 @@ func (r *Retry) init() {
 }
 
 // Does not pollute the namespace
-func (r *Retry) min(a, b uint64) uint64 {
-	if a > b {
-		return b
-	}
-	return a
-}
+func (r *Retry) min(a, b uint64) uint64 { _ = "STUB: not implemented"; return 0 }
 
-func (r *Retry) getSleep() time.Duration {
-	temp := uint64(r.waitTime * time.Duration(math.Exp2(float64(r.currAttempt))))
-	if temp <= 0 {
-		temp = uint64(r.waitTime)
-	}
-	temp = r.min(uint64(r.maxWaitTime), uint64(temp))
-	//对int64边界处理, 后面使用rand.Int63n所以,最大值只能是int64的最大值防止溢出
-	if temp > math.MaxInt64 {
-		temp = math.MaxInt64
-	}
+func (r *Retry) getSleep() time.Duration { _ = "STUB: not implemented"; return *new(time.Duration) }
 
-	temp /= 2
-	return time.Duration(temp) + time.Duration(rand.Int63n(int64(temp)))
-}
+//对int64边界处理, 后面使用rand.Int63n所以,最大值只能是int64的最大值防止溢出
 
 func (r *Retry) genContext(resp *http.Response, err error) *dataflow.Context {
-	code := 0
-	if resp != nil {
-		code = resp.StatusCode
-	}
-	return &dataflow.Context{DataFlow: r.df, Error: err, Code: code}
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Do send function
-func (r *Retry) Do() (err error) {
-	defer r.reset()
-	r.init()
+func (r *Retry) Do() (err error) { _ = "STUB: not implemented"; return nil }
 
-	req, err := r.df.Request()
-	if err != nil {
-		return err
-	}
+// 这里只要调用Func方法，且回调函数返回ErrRetry 会生成新的*http.Request对象
+// 不使用DataFlow.Do()方法原因基于两方面考虑
+// 1.为了效率只需经过一次编码器得到*http.Request,如果需要重试几次后面是多次使用解码器.Bind()函数
+// 2.为了更灵活的控制
 
-	tk := time.NewTimer(r.maxWaitTime)
-	client := r.df.Client()
+//为的是输出debug信息
 
-	var resp *http.Response
-	for i := 0; i < r.attempt; i++ {
-
-		// 这里只要调用Func方法，且回调函数返回ErrRetry 会生成新的*http.Request对象
-		// 不使用DataFlow.Do()方法原因基于两方面考虑
-		// 1.为了效率只需经过一次编码器得到*http.Request,如果需要重试几次后面是多次使用解码器.Bind()函数
-		// 2.为了更灵活的控制
-		resp, err = client.Do(req)
-		if r.cb != nil {
-			err = r.cb(r.genContext(resp, err))
-			if err != nil {
-				if resp != nil {
-					_ = r.df.Bind(req, resp) //为的是输出debug信息
-					resp.Body.Close()
-				}
-
-				if err != ErrRetry {
-					return err
-				}
-
-				var err2 error
-				req, err2 = r.df.Request()
-				if err2 != nil {
-					return err2
-				}
-			}
-		}
-
-		if err == nil && resp != nil {
-			defer resp.Body.Close()
-			return r.df.Bind(req, resp)
-		}
-
-		sleep := r.getSleep()
-
-		if r.df.IsDebug() {
-			fmt.Printf("filter:retry #current attempt:%d, wait time %v\n", r.currAttempt, sleep)
-		}
-
-		tk.Reset(sleep)
-		ctx := r.df.GetContext()
-		if ctx == nil {
-			ctx = context.Background()
-		}
-
-		select {
-		case <-tk.C:
-			// 外部可以使用context直接取消
-		case <-ctx.Done():
-			return ctx.Err()
-		}
-
-		r.currAttempt++
-	}
-
-	if err != nil {
-		return pkgerr.Wrap(ErrRetryFail, err.Error())
-	}
-	return ErrRetryFail
-}
+// 外部可以使用context直接取消

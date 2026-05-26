@@ -23,58 +23,33 @@ var (
 )
 
 // New function is mainly used when passing custom http client
-func New(c ...*http.Client) *Gout {
-	out := &Gout{}
-	if len(c) == 0 || c[0] == nil {
-		out.Client = &DefaultClient
-	} else {
-		out.Client = c[0]
-	}
-
-	out.DataFlow.out = out
-	out.DataFlow.Req.g = out
-	return out
-}
+func New(c ...*http.Client) *Gout { _ = "STUB: not implemented"; return nil }
 
 // TODO 这一层可以直接删除
 // v0.3.3版本开始算起， v0.3.7版本将会删除
 // GET send HTTP GET method
-func GET(url string) *DataFlow {
-	return New().GET(url)
-}
+func GET(url string) *DataFlow { _ = "STUB: not implemented"; return nil }
 
 // POST send HTTP POST method
 // v0.3.3版本开始算起， v0.3.7版本将会删除
-func POST(url string) *DataFlow {
-	return New().POST(url)
-}
+func POST(url string) *DataFlow { _ = "STUB: not implemented"; return nil }
 
 // PUT send HTTP PUT method
 // v0.3.3版本开始算起， v0.3.7版本将会删除
-func PUT(url string) *DataFlow {
-	return New().PUT(url)
-}
+func PUT(url string) *DataFlow { _ = "STUB: not implemented"; return nil }
 
 // DELETE send HTTP DELETE method
 // v0.3.3版本开始算起， v0.3.7版本将会删除
-func DELETE(url string) *DataFlow {
-	return New().DELETE(url)
-}
+func DELETE(url string) *DataFlow { _ = "STUB: not implemented"; return nil }
 
 // PATCH send HTTP PATCH method
 // v0.3.3版本开始算起， v0.3.7版本将会删除
-func PATCH(url string) *DataFlow {
-	return New().PATCH(url)
-}
+func PATCH(url string) *DataFlow { _ = "STUB: not implemented"; return nil }
 
 // HEAD send HTTP HEAD method
 // v0.3.3版本开始算起， v0.3.7版本将会删除
-func HEAD(url string) *DataFlow {
-	return New().HEAD(url)
-}
+func HEAD(url string) *DataFlow { _ = "STUB: not implemented"; return nil }
 
 // OPTIONS send HTTP OPTIONS method
 // v0.3.3版本开始算起， v0.3.7版本将会删除
-func OPTIONS(url string) *DataFlow {
-	return New().OPTIONS(url)
-}
+func OPTIONS(url string) *DataFlow { _ = "STUB: not implemented"; return nil }

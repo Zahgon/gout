@@ -1,9 +1,6 @@
 package main
 
 import (
-	"fmt"
-	"github.com/gin-gonic/gin"
-	"github.com/guonaihong/gout"
 	"time"
 )
 
@@ -15,19 +12,9 @@ type rspHeader struct {
 	Time  time.Time `header:"time" time_format:"2006-01-02"`
 }
 
-func bindHeader() {
-	rsp := rspHeader{}
-	err := gout.GET(":8080/test.header").
-		Debug(true).
-		BindHeader(&rsp). //解析请求header
-		Do()
-	if err != nil {
-		fmt.Printf("%s\n", err)
-		return
-	}
+func bindHeader() { _ = "STUB: not implemented"; return }
 
-	fmt.Printf("rsp header:\n%#v \nTime:%s\n", rsp, rsp.Time)
-}
+//解析请求header
 
 func main() {
 	go server()
@@ -36,13 +23,4 @@ func main() {
 	bindHeader()
 }
 
-func server() {
-	router := gin.New()
-	router.GET("/test.header", func(c *gin.Context) {
-		c.Writer.Header().Add("sid", "1234")
-		c.Writer.Header().Add("total", "2048")
-		c.Writer.Header().Add("time", time.Now().Format("2006-01-02"))
-	})
-
-	router.Run()
-}
+func server() { _ = "STUB: not implemented"; return }

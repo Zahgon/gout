@@ -1,11 +1,9 @@
 package gout
 
 import (
-	"crypto/tls"
 	"net/http"
 	"time"
 
-	"github.com/guonaihong/gout/hcutil"
 	"github.com/guonaihong/gout/setting"
 )
 
@@ -22,106 +20,60 @@ type Option interface {
 // 1.start
 type insecureSkipVerifyOption bool
 
-func (i insecureSkipVerifyOption) apply(opts *options) {
-
-	if opts.hc.Transport == nil {
-		opts.hc.Transport = &http.Transport{
-			TLSClientConfig: &tls.Config{
-				InsecureSkipVerify: true,
-			},
-		}
-		return
-	}
-	opts.hc.Transport.(*http.Transport).TLSClientConfig = &tls.Config{
-		InsecureSkipVerify: true,
-	}
-
-}
+func (i insecureSkipVerifyOption) apply(opts *options) { _ = "STUB: not implemented"; return }
 
 // 1.忽略ssl验证
-func WithInsecureSkipVerify() Option {
-	b := true
-	return insecureSkipVerifyOption(b)
-}
+func WithInsecureSkipVerify() Option { _ = "STUB: not implemented"; return *new(Option) }
 
 // 2. start
 type client http.Client
 
-func (c *client) apply(opts *options) {
-	opts.hc = (*http.Client)(c)
-}
+func (c *client) apply(opts *options) { _ = "STUB: not implemented"; return }
 
 // 2.自定义http.Client
 func WithClient(c *http.Client) Option {
-	return (*client)(c)
+	_ = "STUB: not implemented"
+	return *
+
+	// 3.start
+	new(Option)
 }
 
-// 3.start
 type close3xx struct{}
 
-func (c close3xx) apply(opts *options) {
-	opts.hc.CheckRedirect = func(req *http.Request, via []*http.Request) error {
-		return http.ErrUseLastResponse
-	}
-}
+func (c close3xx) apply(opts *options) { _ = "STUB: not implemented"; return }
 
 // 3.关闭3xx自动跳转
 func WithClose3xxJump() Option {
-	return close3xx{}
+	_ = "STUB: not implemented"
+
+	// 4.timeout
+	return *new(Option)
 }
 
-// 4.timeout
 type timeout time.Duration
 
-func WithTimeout(t time.Duration) Option {
-	return (*timeout)(&t)
-}
+func WithTimeout(t time.Duration) Option { _ = "STUB: not implemented"; return *new(Option) }
 
-func (t *timeout) apply(opts *options) {
-	opts.SetTimeout(time.Duration(*t))
-}
+func (t *timeout) apply(opts *options) { _ = "STUB: not implemented"; return }
 
 // 5. 设置代理
 type proxy string
 
-func WithProxy(p string) Option {
-	return (*proxy)(&p)
-}
+func WithProxy(p string) Option { _ = "STUB: not implemented"; return *new(Option) }
 
-func (p *proxy) apply(opts *options) {
-	if opts.hc == nil {
-		opts.hc = &http.Client{}
-	}
-
-	opts.err = hcutil.SetProxy(opts.hc, string(*p))
-}
+func (p *proxy) apply(opts *options) { _ = "STUB: not implemented"; return }
 
 // 6. 设置socks5代理
 type socks5 string
 
-func WithSocks5(s string) Option {
-	return (*socks5)(&s)
-}
+func WithSocks5(s string) Option { _ = "STUB: not implemented"; return *new(Option) }
 
-func (s *socks5) apply(opts *options) {
-	if opts.hc == nil {
-		opts.hc = &http.Client{}
-	}
-
-	opts.err = hcutil.SetSOCKS5(opts.hc, string(*s))
-}
+func (s *socks5) apply(opts *options) { _ = "STUB: not implemented"; return }
 
 // 7. 设置unix socket
 type unixSocket string
 
-func WithUnixSocket(u string) Option {
-	return (*unixSocket)(&u)
-}
+func WithUnixSocket(u string) Option { _ = "STUB: not implemented"; return *new(Option) }
 
-func (u *unixSocket) apply(opts *options) {
-	if opts.hc == nil {
-		opts.hc = &http.Client{}
-	}
-
-	opts.err = hcutil.UnixSocket(opts.hc, string(*u))
-}
+func (u *unixSocket) apply(opts *options) { _ = "STUB: not implemented"; return }

@@ -2,9 +2,9 @@ package main
 
 import (
 	"fmt"
-	"github.com/gin-gonic/gin"
-	"github.com/guonaihong/gout"
 	"time"
+
+	"github.com/guonaihong/gout"
 )
 
 const (
@@ -12,14 +12,7 @@ const (
 	benchConcurrent = 30
 )
 
-func server() {
-	router := gin.New()
-	router.POST("/", func(c *gin.Context) {
-		c.String(200, "hello world:gout")
-	})
-
-	router.Run()
-}
+func server() { _ = "STUB: not implemented"; return }
 
 func main() {
 	go server()

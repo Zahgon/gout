@@ -1,10 +1,10 @@
 package color
 
 import (
-	"fmt"
-	"github.com/mattn/go-isatty"
 	"os"
 	"strings"
+
+	"github.com/mattn/go-isatty"
 )
 
 var (
@@ -48,72 +48,33 @@ type Color struct {
 }
 
 // New 着色模块构造函数
-func New(openColor bool, c ...attr) *Color {
-	attr := attr(30)
-	if len(c) > 0 {
-		attr = c[0]
-	}
-	return &Color{openColor: openColor, attr: attr}
-}
+func New(openColor bool, c ...attr) *Color { _ = "STUB: not implemented"; return nil }
 
-func (c *Color) set(buf *strings.Builder, attr attr) {
-	if NoColor || !c.openColor {
-		return
-	}
+func (c *Color) set(buf *strings.Builder, attr attr) { _ = "STUB: not implemented"; return }
 
-	fmt.Fprintf(buf, "\x1b[%d;1m", attr)
-}
+func (c *Color) unset(buf *strings.Builder) { _ = "STUB: not implemented"; return }
 
-func (c *Color) unset(buf *strings.Builder) {
-	if NoColor || !c.openColor {
-		return
-	}
-
-	fmt.Fprintf(buf, "\x1b[0m")
-}
-
-func (c *Color) color(a ...interface{}) string {
-	var buf strings.Builder
-
-	c.set(&buf, c.attr)
-
-	fmt.Fprint(&buf, a...)
-	c.unset(&buf)
-
-	return buf.String()
-}
+func (c *Color) color(a ...interface{}) string { _ = "STUB: not implemented"; return "" }
 
 func (c *Color) colorf(format string, a ...interface{}) string {
-	var buf strings.Builder
-
-	c.set(&buf, c.attr)
-
-	fmt.Fprintf(&buf, format, a...)
-	c.unset(&buf)
-
-	return buf.String()
+	_ = "STUB: not implemented"
+	return ""
 }
 
 // Sbluef 蓝色函数
 func (c *Color) Sbluef(format string, a ...interface{}) string {
-	c.attr = Blue
-	return c.colorf(format, a...)
+	_ = "STUB: not implemented"
+	return ""
 }
 
 // Sblue 蓝色函数
-func (c *Color) Sblue(a ...interface{}) string {
-	c.attr = Blue
-	return c.color(a...)
-}
+func (c *Color) Sblue(a ...interface{}) string { _ = "STUB: not implemented"; return "" }
 
 // Spurplef 紫色函数, TODO删除该函数
 func (c *Color) Spurplef(format string, a ...interface{}) string {
-	c.attr = Purple
-	return c.colorf(format, a...)
+	_ = "STUB: not implemented"
+	return ""
 }
 
 // Spurple 紫色函数
-func (c *Color) Spurple(a ...interface{}) string {
-	c.attr = Purple
-	return c.color(a...)
-}
+func (c *Color) Spurple(a ...interface{}) string { _ = "STUB: not implemented"; return "" }

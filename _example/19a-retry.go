@@ -2,9 +2,10 @@ package main
 
 import (
 	"fmt"
+	"time"
+
 	"github.com/guonaihong/gout"
 	"github.com/guonaihong/gout/core"
-	"time"
 )
 
 func main() {

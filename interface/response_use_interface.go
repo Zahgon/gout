@@ -12,11 +12,14 @@ type ResponseMiddler interface {
 }
 
 func (f ResponseMiddlerFunc) ModifyResponse(response *http.Response) error {
-	return f(response)
+	_ = "STUB: not implemented"
+	return nil
+
+	// WithResponseMiddlerFunc 是创建一个 ResponseMiddler 的helper
+	// 如果我们只需要简单的逻辑，只关注闭包本身，则可以使用这个helper快速创建一个 ResponseMiddler
 }
 
-// WithResponseMiddlerFunc 是创建一个 ResponseMiddler 的helper
-// 如果我们只需要简单的逻辑，只关注闭包本身，则可以使用这个helper快速创建一个 ResponseMiddler
 func WithResponseMiddlerFunc(f ResponseMiddlerFunc) ResponseMiddler {
-	return f
+	_ = "STUB: not implemented"
+	return *new(ResponseMiddler)
 }

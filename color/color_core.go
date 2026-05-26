@@ -2,15 +2,7 @@ package color
 
 import (
 	"bytes"
-	"fmt"
 	"io"
-	"io/ioutil"
-	"sort"
-	"strconv"
-	"strings"
-
-	"github.com/guonaihong/gout/enjson"
-	"github.com/guonaihong/gout/json"
 )
 
 // BodyType 区分body的类型
@@ -60,176 +52,44 @@ type Formatter struct {
 	r io.Reader
 }
 
-func strToObject(all []byte) (interface{}, error) {
-
-	var obj map[string]interface{}
-	if err := json.Unmarshal(all, &obj); err != nil {
-		var arr []interface{}
-		if err = json.Unmarshal(all, &arr); err != nil {
-			return nil, err
-		}
-
-		return arr, nil
-	}
-
-	return obj, nil
-}
+func strToObject(all []byte) (interface{}, error) { _ = "STUB: not implemented"; return nil, nil }
 
 // NewFormatEncoder 着色json/yaml/xml构造函数
 func NewFormatEncoder(r io.Reader, openColor bool, bodyType BodyType, escapeHTML bool) *Formatter {
+	_ = "STUB: not implemented"
 	// 如果颜色没打开，或者bodyType为txt
-	if !openColor || bodyType == TxtType {
-		return nil
-	}
-
-	all, err := ioutil.ReadAll(r)
-	if err != nil {
-		return nil
-	}
-
-	var data interface{}
-	switch bodyType {
-	case JSONType:
-		if data, err = strToObject(all); err != nil {
-			return nil
-		}
-		//todo xmlType and yamlType
-	case XMLType:
-	case YAMLType:
-	}
-	if err != nil {
-		return nil
-	}
-
-	f := &Formatter{
-		escapeHTML:      escapeHTML,
-		KeyColor:        New(true, FgWhite),
-		StringColor:     New(true, FgGreen),
-		BoolColor:       New(true, FgYellow),
-		NumberColor:     New(true, FgCyan),
-		NullColor:       New(true, FgMagenta),
-		StringMaxLength: 0,
-		DisabledColor:   false,
-		Indent:          4,
-		RawStrings:      false,
-		r:               r,
-	}
-
-	all, _ = f.Marshal(data)
-
-	f.r = bytes.NewReader(all)
-	return f
+	return nil
 }
 
-func (f *Formatter) sprintColor(c *Color, s string) string {
-	if f.DisabledColor || c == nil {
-		return fmt.Sprint(s)
-	}
-	return c.color(s)
-}
+//todo xmlType and yamlType
 
-func (f *Formatter) writeIndent(buf *bytes.Buffer, depth int) {
-	buf.WriteString(strings.Repeat(" ", f.Indent*depth))
-}
+func (f *Formatter) sprintColor(c *Color, s string) string { _ = "STUB: not implemented"; return "" }
 
-func (f *Formatter) writeObjSep(buf *bytes.Buffer) {
-	if f.Indent != 0 {
-		buf.WriteByte('\n')
-	} else {
-		buf.WriteByte(' ')
-	}
-}
+func (f *Formatter) writeIndent(buf *bytes.Buffer, depth int) { _ = "STUB: not implemented"; return }
+
+func (f *Formatter) writeObjSep(buf *bytes.Buffer) { _ = "STUB: not implemented"; return }
 
 // Marshal 给原始的结构化数据着色
 func (f *Formatter) Marshal(jsonObj interface{}) ([]byte, error) {
-	buffer := bytes.Buffer{}
-	f.marshalValue(jsonObj, &buffer, initialDepth)
-	return buffer.Bytes(), nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 func (f *Formatter) marshalMap(m map[string]interface{}, buf *bytes.Buffer, depth int) {
-	remaining := len(m)
-
-	if remaining == 0 {
-		buf.WriteString(emptyMap)
-		return
-	}
-
-	keys := make([]string, 0)
-	for key := range m {
-		keys = append(keys, key)
-	}
-
-	sort.Strings(keys)
-
-	buf.WriteString(startMap)
-	f.writeObjSep(buf)
-
-	for _, key := range keys {
-		f.writeIndent(buf, depth+1)
-		buf.WriteString(f.KeyColor.colorf(`"%s": `, key))
-		f.marshalValue(m[key], buf, depth+1)
-		remaining--
-		if remaining != 0 {
-			buf.WriteString(valueSep)
-		}
-		f.writeObjSep(buf)
-	}
-	f.writeIndent(buf, depth)
-	buf.WriteString(endMap)
+	_ = "STUB: not implemented"
+	return
 }
 
 func (f *Formatter) marshalArray(a []interface{}, buf *bytes.Buffer, depth int) {
-	if len(a) == 0 {
-		buf.WriteString(emptyArray)
-		return
-	}
-
-	buf.WriteString(startArray)
-	f.writeObjSep(buf)
-
-	for i, v := range a {
-		f.writeIndent(buf, depth+1)
-		f.marshalValue(v, buf, depth+1)
-		if i < len(a)-1 {
-			buf.WriteString(valueSep)
-		}
-		f.writeObjSep(buf)
-	}
-	f.writeIndent(buf, depth)
-	buf.WriteString(endArray)
+	_ = "STUB: not implemented"
+	return
 }
 
 func (f *Formatter) marshalValue(val interface{}, buf *bytes.Buffer, depth int) {
-	switch v := val.(type) {
-	case map[string]interface{}:
-		f.marshalMap(v, buf, depth)
-	case []interface{}:
-		f.marshalArray(v, buf, depth)
-	case string:
-		f.marshalString(v, buf)
-	case float64:
-		buf.WriteString(f.sprintColor(f.NumberColor, strconv.FormatFloat(v, 'f', -1, 64)))
-	case bool:
-		buf.WriteString(f.sprintColor(f.BoolColor, (strconv.FormatBool(v))))
-	case nil:
-		buf.WriteString(f.sprintColor(f.NullColor, null))
-	}
+	_ = "STUB: not implemented"
+	return
 }
 
-func (f *Formatter) marshalString(str string, buf *bytes.Buffer) {
-	if !f.RawStrings {
-		strBytes, _ := enjson.Marshal(str, f.escapeHTML)
-		str = string(strBytes)
-	}
+func (f *Formatter) marshalString(str string, buf *bytes.Buffer) { _ = "STUB: not implemented"; return }
 
-	if f.StringMaxLength != 0 && len(str) >= f.StringMaxLength {
-		str = fmt.Sprintf("%s...", str[0:f.StringMaxLength])
-	}
-
-	buf.WriteString(f.sprintColor(f.StringColor, str))
-}
-
-func (f *Formatter) Read(p []byte) (n int, err error) {
-	return f.r.Read(p)
-}
+func (f *Formatter) Read(p []byte) (n int, err error) { _ = "STUB: not implemented"; return 0, nil }

@@ -1,20 +1,13 @@
 package main
 
 import (
-	"fmt"
-	"github.com/gin-gonic/gin"
-	"github.com/guonaihong/gout"
 	"time"
 )
 
 func setTimeoutExample() {
+	_ = "STUB: not implemented"
 	// 给http请求 设置超时
-
-	err := gout.GET(":8080/timeout").
-		SetTimeout(2 * time.Second).
-		Do()
-
-	fmt.Printf("err = %s\n", err)
+	return
 }
 
 func main() {
@@ -23,15 +16,4 @@ func main() {
 	setTimeoutExample()
 }
 
-func server() {
-	router := gin.New()
-	router.GET("/timeout", func(c *gin.Context) {
-		ctx := c.Request.Context()
-		select {
-		case <-ctx.Done():
-			fmt.Printf("timeout done\n")
-		}
-	})
-
-	router.Run()
-}
+func server() { _ = "STUB: not implemented"; return }

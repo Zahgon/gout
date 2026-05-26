@@ -22,21 +22,12 @@ type Setting struct {
 }
 
 // 使用chunked数据
-func (s *Setting) Chunked() {
-	s.UseChunked = true
-}
+func (s *Setting) Chunked() { _ = "STUB: not implemented"; return }
 
-func (s *Setting) SetTimeout(d time.Duration) {
-	s.Timeout = d
-}
+func (s *Setting) SetTimeout(d time.Duration) { _ = "STUB: not implemented"; return }
 
-func (s *Setting) SetDebug(b bool) {
-	s.Debug = b
-}
+func (s *Setting) SetDebug(b bool) { _ = "STUB: not implemented"; return }
 
-func (s *Setting) Reset() {
-	s.NotIgnoreEmpty = false
-	s.NoAutoContentType = false
-	//s.TimeoutIndex = 0
-	s.Timeout = time.Duration(0)
-}
+func (s *Setting) Reset() { _ = "STUB: not implemented"; return }
+
+//s.TimeoutIndex = 0

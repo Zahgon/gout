@@ -1,12 +1,9 @@
 package encode
 
 import (
-	"bytes"
-	"encoding/xml"
 	"errors"
 	"io"
 
-	"github.com/guonaihong/gout/core"
 	"github.com/guonaihong/gout/encoder"
 )
 
@@ -19,44 +16,14 @@ type XMLEncode struct {
 
 // NewXMLEncode create a new xml encoder
 func NewXMLEncode(obj interface{}) encoder.Encoder {
-	if obj == nil {
-		return nil
-	}
-
-	return &XMLEncode{obj: obj}
+	_ = "STUB: not implemented"
+	return *new(encoder.Encoder)
 }
 
 // Encode xml encoder
-func (x *XMLEncode) Encode(w io.Writer) (err error) {
-	if v, ok := core.GetBytes(x.obj); ok {
-		if b := XMLValid(v); !b {
-			return ErrNotXML
-		}
-
-		_, err = w.Write(v)
-		return err
-	}
-
-	encode := xml.NewEncoder(w)
-	return encode.Encode(x.obj)
-}
+func (x *XMLEncode) Encode(w io.Writer) (err error) { _ = "STUB: not implemented"; return nil }
 
 // Name xml Encoder name
-func (x *XMLEncode) Name() string {
-	return "xml"
-}
+func (x *XMLEncode) Name() string { _ = "STUB: not implemented"; return "" }
 
-func XMLValid(b []byte) bool {
-	dec := xml.NewDecoder(bytes.NewBuffer(b))
-	for {
-		_, err := dec.Token()
-		if err != nil {
-			if err == io.EOF {
-				break
-			}
-			return false
-		}
-	}
-
-	return true
-}
+func XMLValid(b []byte) bool { _ = "STUB: not implemented"; return false }

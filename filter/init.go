@@ -1,9 +1,10 @@
 package filter
 
 import (
-	"github.com/guonaihong/gout/dataflow"
 	"math/rand"
 	"time"
+
+	"github.com/guonaihong/gout/dataflow"
 )
 
 var (

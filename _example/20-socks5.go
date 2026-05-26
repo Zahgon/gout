@@ -2,9 +2,10 @@ package main
 
 import (
 	"fmt"
-	"github.com/guonaihong/gout"
 	"log"
 	"net/http"
+
+	"github.com/guonaihong/gout"
 )
 
 func main() {

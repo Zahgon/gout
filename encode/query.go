@@ -16,26 +16,16 @@ type QueryEncode struct {
 }
 
 // NewQueryEncode create a new URL query  encoder
-func NewQueryEncode(s setting.Setting) *QueryEncode {
-	return &QueryEncode{values: make(url.Values), Setting: s}
-}
+func NewQueryEncode(s setting.Setting) *QueryEncode { _ = "STUB: not implemented"; return nil }
 
 // Add Encoder core function, used to set each key / value into the http URL query
 func (q *QueryEncode) Add(key string, v reflect.Value, sf reflect.StructField) error {
-	val := valToStr(v, sf)
-	if !q.NotIgnoreEmpty && len(val) == 0 {
-		return nil
-	}
-	q.values.Add(key, val)
+	_ = "STUB: not implemented"
 	return nil
 }
 
 // End URL query structured data into strings
-func (q *QueryEncode) End() string {
-	return q.values.Encode()
-}
+func (q *QueryEncode) End() string { _ = "STUB: not implemented"; return "" }
 
 // Name URL query Encoder name
-func (q *QueryEncode) Name() string {
-	return "query"
-}
+func (q *QueryEncode) Name() string { _ = "STUB: not implemented"; return "" }

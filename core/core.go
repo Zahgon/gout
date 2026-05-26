@@ -4,7 +4,6 @@ import (
 	"errors"
 	"net/http"
 	"reflect"
-	"unsafe"
 )
 
 // FormFile 用于formdata类型数据编码
@@ -32,71 +31,22 @@ type A []interface{}
 var ErrUnknownType = errors.New("unknown type")
 
 // LoopElem 不停地对指针解引用
-func LoopElem(v reflect.Value) reflect.Value {
-	for v.Kind() == reflect.Ptr {
-		if v.IsNil() {
-			return v
-		}
-		v = v.Elem()
-	}
-
-	return v
-}
+func LoopElem(v reflect.Value) reflect.Value { _ = "STUB: not implemented"; return *new(reflect.Value) }
 
 // BytesToString 没有内存开销的转换
-func BytesToString(b []byte) string {
-	return *(*string)(unsafe.Pointer(&b))
-}
+func BytesToString(b []byte) string { _ = "STUB: not implemented"; return "" }
 
 // StringToBytes 没有内存开销的转换
-func StringToBytes(s string) (b []byte) {
-	bh := (*reflect.SliceHeader)(unsafe.Pointer(&b))
-	sh := (*reflect.StringHeader)(unsafe.Pointer(&s))
-	bh.Data = sh.Data
-	bh.Len = sh.Len
-	bh.Cap = sh.Len
-	return b
-}
+func StringToBytes(s string) (b []byte) { _ = "STUB: not implemented"; return nil }
 
 // NewPtrVal 新建这个类型的指针变量并赋值
-func NewPtrVal(defValue interface{}) interface{} {
-	p := reflect.New(reflect.TypeOf(defValue))
-	p.Elem().Set(reflect.ValueOf(defValue))
-	return p.Interface()
-}
+func NewPtrVal(defValue interface{}) interface{} { _ = "STUB: not implemented"; return nil }
 
 func CloneRequest(r *http.Request) (*http.Request, error) {
-	var err error
-
-	r0 := &http.Request{}
-	*r0 = *r
-
-	r0.Header = make(http.Header, len(r.Header))
-
-	for k, h := range r.Header {
-		r0.Header[k] = append([]string(nil), h...)
-	}
-
-	r0.Body, err = r.GetBody()
-	return r0, err
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
-func GetBytes(v interface{}) (b []byte, ok bool) {
-	switch d := v.(type) {
-	case []byte:
-		return d, true
-	case string:
-		return StringToBytes(d), true
-	}
-	return nil, false
-}
+func GetBytes(v interface{}) (b []byte, ok bool) { _ = "STUB: not implemented"; return nil, false }
 
-func GetString(v interface{}) (s string, ok bool) {
-	switch s := v.(type) {
-	case []byte:
-		return BytesToString(s), true
-	case string:
-		return s, true
-	}
-	return "", false
-}
+func GetString(v interface{}) (s string, ok bool) { _ = "STUB: not implemented"; return "", false }

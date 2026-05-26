@@ -31,6 +31,4 @@ Percentage of the requests served within a certain time (ms)
 `
 
 // 后面要加新的显示格式，只要加新的模版就行
-func newTemplate() *template.Template {
-	return template.Must(template.New("text").Parse(tmpl))
-}
+func newTemplate() *template.Template { _ = "STUB: not implemented"; return nil }

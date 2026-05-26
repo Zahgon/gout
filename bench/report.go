@@ -2,14 +2,8 @@ package bench
 
 import (
 	"context"
-	"fmt"
-	"io"
-	"io/ioutil"
 	"net/http"
-	"os"
-	"sort"
 	"sync"
-	"sync/atomic"
 	"time"
 )
 
@@ -78,244 +72,55 @@ func NewReport(ctx context.Context,
 	getRequest func() (*http.Request, error),
 
 	client *http.Client) *Report {
-	step := 0
-	if n > 150 {
-		if step = n / 10; step < 100 {
-			step = 10
-		}
-	}
-
-	ctx, cancel := context.WithCancel(ctx)
-	return &Report{
-		ReportData: ReportData{
-			allResult: make(chan result),
-			report: report{
-				Concurrency: c,
-				StatusCodes: make(map[int]int, 1000),
-				Duration:    duration,
-				ErrMsg:      make(map[string]int, 2),
-			},
-			waitQuit:   make(chan struct{}),
-			Number:     n,
-			step:       step,
-			ctx:        ctx,
-			cancel:     cancel,
-			getRequest: getRequest,
-			Client:     client,
-			startTime:  time.Now(),
-		},
-	}
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Cancel report logic
 func (r *Report) Cancel() {
-	r.cancel()
+	_ = "STUB: not implemented"
+
+	// Init 初始化报表模块, 后台会起一个统计go程
+	return
 }
 
-// Init 初始化报表模块, 后台会起一个统计go程
-func (r *Report) Init() {
-	r.startReport()
-}
+func (r *Report) Init() { _ = "STUB: not implemented"; return }
 
-func (r *Report) addComplete() {
-	atomic.AddUint64(&r.CompleteRequest, 1)
-}
+func (r *Report) addComplete() { _ = "STUB: not implemented"; return }
 
 // 统计错误消息
-func (r *Report) addErrAndFailed(err error) {
-	r.lerr.Lock()
-	r.ErrMsg[err.Error()]++
-	r.lerr.Unlock()
-	atomic.AddUint64(&r.Failed, 1)
-}
+func (r *Report) addErrAndFailed(err error) { _ = "STUB: not implemented"; return }
 
 // 统计http code数量
-func (r *Report) addCode(code int) {
-	r.lcode.Lock()
-	r.StatusCodes[code]++
-	r.lcode.Unlock()
-}
+func (r *Report) addCode(code int) { _ = "STUB: not implemented"; return }
 
 // Process 负责构造压测http 链接和统计压测元数据
-func (r *Report) Process(work chan struct{}) {
-	for range work {
-		start := time.Now()
+func (r *Report) Process(work chan struct{}) { _ = "STUB: not implemented"; return }
 
-		req, err := r.getRequest()
-		if err != nil {
-			r.addErrAndFailed(err)
-			continue
-		}
-
-		resp, err := r.Do(req)
-		if err != nil {
-			r.addErrAndFailed(err)
-			continue
-		}
-
-		body, _ := req.GetBody()
-		if body != nil {
-			bodySize, _ := io.Copy(ioutil.Discard, body)
-			atomic.AddUint64(&r.TotalWriteBody, uint64(bodySize))
-		}
-
-		// 统计http code数量
-		r.addCode(resp.StatusCode)
-
-		bodySize, err := io.Copy(ioutil.Discard, resp.Body)
-		if err != nil {
-			r.addErrAndFailed(err)
-			continue
-		}
-
-		r.calBody(resp, uint64(bodySize))
-
-		resp.Body.Close()
-
-		r.addComplete()
-		r.allResult <- result{
-			time:       time.Since(start),
-			statusCode: resp.StatusCode,
-		}
-	}
-}
+// 统计http code数量
 
 // WaitAll 等待结束
 func (r *Report) WaitAll() {
-	<-r.waitQuit
-	//TODO 处理错误
-	_ = r.outputReport() //输出最终报表
+	_ = "STUB: not implemented"
+
+	// TODO 处理错误
+	return
 }
 
-func (r *Report) calBody(resp *http.Response, bodySize uint64) {
+//输出最终报表
 
-	hN := len(resp.Status)
-	hN += len(resp.Proto)
-	hN++    //space
-	hN += 2 //\r\n
-	for k, v := range resp.Header {
-		hN += len(k)
+func (r *Report) calBody(resp *http.Response, bodySize uint64) { _ = "STUB: not implemented"; return }
 
-		for _, hv := range v {
-			hN += len(hv)
-		}
-		hN += 2 //:space
-		hN += 2 //\r\n
-	}
+//space
+//\r\n
 
-	hN += 2
+//:space
+//\r\n
 
-	atomic.AddUint64(&r.TotalBody, uint64(bodySize))
-	atomic.AddUint64(&r.TotalRead, uint64(hN))
-	atomic.AddUint64(&r.TotalRead, uint64(bodySize))
+func genTimeStr(now time.Time) string { _ = "STUB: not implemented"; return "" }
 
-}
+func (r *Report) startReport() { _ = "STUB: not implemented"; return }
 
-func genTimeStr(now time.Time) string {
-	year, month, day := now.Date()
-	hour, min, sec := now.Clock()
+//if newInterval := next.Sub(time.Now()); newInterval > 0 {
 
-	return fmt.Sprintf("%4d-%02d-%02d %02d:%02d:%02d.%06d",
-		year,
-		month,
-		day,
-		hour,
-		min,
-		sec,
-		now.Nanosecond()/1e3,
-	)
-}
-
-func (r *Report) startReport() {
-	go func() {
-		defer func() {
-			fmt.Printf("  Finished  %15d requests\n", r.SendNum)
-			r.waitQuit <- struct{}{}
-		}()
-
-		if r.step > 0 {
-			for {
-				select {
-				case <-r.ctx.Done():
-					return
-				case v := <-r.allResult:
-					r.SendNum++
-					if r.step > 0 && r.SendNum%r.step == 0 {
-						now := time.Now()
-
-						fmt.Printf("    Opened %15d connections: [%s]\n",
-							r.SendNum, genTimeStr(now))
-					}
-
-					r.allTimes = append(r.allTimes, v.time)
-				}
-			}
-		}
-
-		begin := time.Now()
-		interval := r.Duration / 10
-
-		if interval == 0 || int64(interval) > int64(3*time.Second) {
-			interval = 3 * time.Second
-		}
-
-		nTick := time.NewTicker(interval)
-		count := 1
-		for {
-			select {
-			case <-nTick.C:
-				now := time.Now()
-
-				fmt.Printf("  Completed %15d requests [%s]\n",
-					r.SendNum, genTimeStr(now))
-
-				count++
-				next := begin.Add(time.Duration(count * int(interval)))
-				if newInterval := time.Until(next); newInterval > 0 {
-					//if newInterval := next.Sub(time.Now()); newInterval > 0 {
-					nTick = time.NewTicker(newInterval)
-				} else {
-					nTick = time.NewTicker(time.Millisecond * 100)
-				}
-			case v, ok := <-r.allResult:
-				if !ok {
-					return
-				}
-
-				r.SendNum++
-				r.allTimes = append(r.allTimes, v.time)
-			case <-r.ctx.Done():
-				return
-			}
-		}
-
-	}()
-}
-
-func (r *Report) outputReport() error {
-	r.Duration = time.Since(r.startTime)
-	r.Tps = float64(r.SendNum) / r.Duration.Seconds()
-	r.AllMean = float64(r.Concurrency) * float64(r.Duration) / float64(time.Millisecond) / float64(r.SendNum)
-	r.Mean = float64(r.Duration) / float64(r.SendNum) / float64(time.Millisecond)
-	r.Kbs = float64(r.TotalRead) / float64(1024) / r.Duration.Seconds()
-
-	allTimes := r.allTimes
-	sort.Slice(allTimes, func(i, j int) bool {
-		return allTimes[i] < allTimes[j]
-	})
-
-	if len(allTimes) > 1 {
-		r.Percentage55 = allTimes[int(float64(len(allTimes))*0.5)]
-		r.Percentage66 = allTimes[int(float64(len(allTimes))*0.66)]
-		r.Percentage75 = allTimes[int(float64(len(allTimes))*0.75)]
-		r.Percentage80 = allTimes[int(float64(len(allTimes))*0.80)]
-		r.Percentage90 = allTimes[int(float64(len(allTimes))*0.90)]
-		r.Percentage95 = allTimes[int(float64(len(allTimes))*0.95)]
-		r.Percentage98 = allTimes[int(float64(len(allTimes))*0.98)]
-		r.Percentage99 = allTimes[int(float64(len(allTimes))*0.99)]
-		r.Percentage100 = allTimes[len(allTimes)-1]
-	}
-
-	tmpl := newTemplate()
-	return tmpl.Execute(os.Stdout, r.report)
-}
+func (r *Report) outputReport() error { _ = "STUB: not implemented"; return nil }

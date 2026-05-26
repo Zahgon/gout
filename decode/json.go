@@ -1,7 +1,6 @@
 package decode
 
 import (
-	"github.com/guonaihong/gout/json"
 	"io"
 )
 
@@ -11,26 +10,17 @@ type JSONDecode struct {
 }
 
 // NewJSONDecode create a new json decoder
-func NewJSONDecode(obj interface{}) Decoder {
-	if obj == nil {
-		return nil
-	}
-	return &JSONDecode{obj: obj}
-}
+func NewJSONDecode(obj interface{}) Decoder { _ = "STUB: not implemented"; return *new(Decoder) }
 
 // Decode json decoder
-func (j *JSONDecode) Decode(r io.Reader) error {
-	decode := json.NewDecoder(r)
-	return decode.Decode(j.obj)
-}
+func (j *JSONDecode) Decode(r io.Reader) error { _ = "STUB: not implemented"; return nil }
 
 // Decode obj
 func (j *JSONDecode) Value() interface{} {
-	return j.obj
+	_ = "STUB: not implemented"
+
+	// JSON json decoder
+	return nil
 }
 
-// JSON json decoder
-func JSON(r io.Reader, obj interface{}) error {
-	decode := json.NewDecoder(r)
-	return decode.Decode(obj)
-}
+func JSON(r io.Reader, obj interface{}) error { _ = "STUB: not implemented"; return nil }

@@ -15,20 +15,14 @@ type DebugOption = debug.Options //不推荐gout.DebugOption方式引用, 推荐
 type DebugOpt = debug.Apply      //不推荐gout.DebugOpt方式引用，推荐debug.Apply方式引用
 type DebugFunc = debug.Func      //不推荐gout.DebugFunc方式引用，推荐debug.Func方式引用
 
-func NoColor() DebugOpt {
-	return debug.NoColor()
-}
+func NoColor() DebugOpt { _ = "STUB: not implemented"; return *new(DebugOpt) }
 
-func Trace() DebugOpt {
-	return debug.Trace()
-}
+func Trace() DebugOpt { _ = "STUB: not implemented"; return *new(DebugOpt) }
 
 type Context = dataflow.Context
 
 // New function is mainly used when passing custom http client
-func New(c ...*http.Client) *dataflow.Gout {
-	return dataflow.New(c...)
-}
+func New(c ...*http.Client) *dataflow.Gout { _ = "STUB: not implemented"; return nil }
 
 // GET send HTTP GET method
 // 第一种情况
@@ -43,56 +37,55 @@ func New(c ...*http.Client) *dataflow.Gout {
 //
 // gout.GET("http://{{.Host}/{{.AppKey}}}", &host{Host:"www.demo.xx", AppKey:"test-appkey"})
 func GET(url string, urlStruct ...interface{}) *dataflow.DataFlow {
-	return dataflow.New().GET(url, urlStruct...)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // POST send HTTP POST method
 func POST(url string, urlStruct ...interface{}) *dataflow.DataFlow {
-	return dataflow.New().POST(url, urlStruct...)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // PUT send HTTP PUT method
 func PUT(url string, urlStruct ...interface{}) *dataflow.DataFlow {
-	return dataflow.New().PUT(url, urlStruct...)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // DELETE send HTTP DELETE method
 func DELETE(url string, urlStruct ...interface{}) *dataflow.DataFlow {
-	return dataflow.New().DELETE(url, urlStruct...)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // PATCH send HTTP PATCH method
 func PATCH(url string, urlStruct ...interface{}) *dataflow.DataFlow {
-	return dataflow.New().PATCH(url, urlStruct...)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // HEAD send HTTP HEAD method
 func HEAD(url string, urlStruct ...interface{}) *dataflow.DataFlow {
-	return dataflow.New().HEAD(url, urlStruct...)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // OPTIONS send HTTP OPTIONS method
 func OPTIONS(url string, urlStruct ...interface{}) *dataflow.DataFlow {
-	return dataflow.New().OPTIONS(url, urlStruct...)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // 设置不忽略空值
-func NotIgnoreEmpty() {
-	dataflow.GlobalSetting.NotIgnoreEmpty = true
-}
+func NotIgnoreEmpty() { _ = "STUB: not implemented"; return }
 
 // 设置忽略空值
-func IgnoreEmpty() {
-	dataflow.GlobalSetting.NotIgnoreEmpty = false
-}
+func IgnoreEmpty() { _ = "STUB: not implemented"; return }
 
 // 设置超时时间,
 // d > 0, 设置timeout
 // d == 0，取消全局变量
-func SetTimeout(d time.Duration) {
-	dataflow.GlobalSetting.SetTimeout(d)
-}
+func SetTimeout(d time.Duration) { _ = "STUB: not implemented"; return }
 
-func SetDebug(b bool) {
-	dataflow.GlobalSetting.SetDebug(b)
-}
+func SetDebug(b bool) { _ = "STUB: not implemented"; return }

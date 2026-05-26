@@ -1,12 +1,8 @@
 package decode
 
 import (
-	"fmt"
 	"io"
-	"io/ioutil"
 	"reflect"
-
-	"github.com/guonaihong/gout/core"
 )
 
 // BodyDecode body decoder structure
@@ -15,13 +11,7 @@ type BodyDecode struct {
 }
 
 // NewBodyDecode create a new body decoder
-func NewBodyDecode(obj interface{}) Decoder {
-	if obj == nil {
-		return nil
-	}
-
-	return &BodyDecode{obj: obj}
-}
+func NewBodyDecode(obj interface{}) Decoder { _ = "STUB: not implemented"; return *new(Decoder) }
 
 var convertBodyFunc = map[reflect.Kind]convert{
 	reflect.Uint:    {bitSize: 0, cb: setUintField},
@@ -39,43 +29,14 @@ var convertBodyFunc = map[reflect.Kind]convert{
 }
 
 // Decode body decoder
-func (b *BodyDecode) Decode(r io.Reader) error {
-	return Body(r, b.obj)
-}
+func (b *BodyDecode) Decode(r io.Reader) error { _ = "STUB: not implemented"; return nil }
 
 // Decode obj
 func (b *BodyDecode) Value() interface{} {
-	return b.obj
+	_ = "STUB: not implemented"
+
+	// Body body decoder
+	return nil
 }
 
-// Body body decoder
-func Body(r io.Reader, obj interface{}) error {
-	if w, ok := obj.(io.Writer); ok {
-		_, err := io.Copy(w, r)
-		return err
-	}
-
-	all, err := ioutil.ReadAll(r)
-	if err != nil {
-		return err
-	}
-
-	value := core.LoopElem(reflect.ValueOf(obj))
-
-	if value.Kind() == reflect.String {
-		value.SetString(core.BytesToString(all))
-		return nil
-	}
-
-	if _, ok := value.Interface().([]byte); ok {
-		value.SetBytes(all)
-		return nil
-	}
-
-	fn, ok := convertBodyFunc[value.Kind()]
-	if ok {
-		return fn.cb(core.BytesToString(all), fn.bitSize, emptyField, value)
-	}
-
-	return fmt.Errorf("type (%T) %s", value, core.ErrUnknownType)
-}
+func Body(r io.Reader, obj interface{}) error { _ = "STUB: not implemented"; return nil }

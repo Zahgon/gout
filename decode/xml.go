@@ -1,7 +1,6 @@
 package decode
 
 import (
-	"encoding/xml"
 	"io"
 )
 
@@ -11,26 +10,17 @@ type XMLDecode struct {
 }
 
 // NewXMLDecode create a new xml decoder
-func NewXMLDecode(obj interface{}) Decoder {
-	if obj == nil {
-		return nil
-	}
-	return &XMLDecode{obj: obj}
-}
+func NewXMLDecode(obj interface{}) Decoder { _ = "STUB: not implemented"; return *new(Decoder) }
 
 // Decode xml decoder
-func (x *XMLDecode) Decode(r io.Reader) error {
-	decode := xml.NewDecoder(r)
-	return decode.Decode(x.obj)
-}
+func (x *XMLDecode) Decode(r io.Reader) error { _ = "STUB: not implemented"; return nil }
 
 // Decode object
 func (x *XMLDecode) Value() interface{} {
-	return x.obj
+	_ = "STUB: not implemented"
+
+	// XML xml decoder
+	return nil
 }
 
-// XML xml decoder
-func XML(r io.Reader, obj interface{}) error {
-	decode := xml.NewDecoder(r)
-	return decode.Decode(obj)
-}
+func XML(r io.Reader, obj interface{}) error { _ = "STUB: not implemented"; return nil }
